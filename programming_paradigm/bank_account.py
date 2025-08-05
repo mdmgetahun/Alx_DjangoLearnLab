@@ -15,11 +15,11 @@ class BankAccount:
         return False
 
     def display_balance(self):
-        return self.account_balance
+        print(f"Current Balance: ${self.account_balance:.2f}")
     
 def main(account):
 
-    account = BankAccount("Amdetsion", 100)  
+    account = BankAccount(100)  
     while True:
 
         print("Choose Action:")
@@ -41,9 +41,9 @@ def main(account):
             if account.withdraw(amount):
                 print(f"Withdrew: ${amount}")
             else:
-                print("Insufficient funds.")
+                print("Insuffaicient funds.")
         elif choice == '3':
-            print(f"Current Balance: ${account.display_balance()}")
+            account.display_balance()
         elif choice == '4':
             print("Exiting...")
             break
@@ -51,5 +51,5 @@ def main(account):
             print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    main(account=BankAccount("Amdetsion", 100)) 
+    main(account=BankAccount(100)) 
     
