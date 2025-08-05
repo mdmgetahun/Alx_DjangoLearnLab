@@ -51,5 +51,6 @@ def main(account):
         else:
             print("Invalid choice. Please try again.")
 
-main(account=BankAccount("Amdetsion", 100))
+if __name__ == "__main__":
+    main(account=None)
     
