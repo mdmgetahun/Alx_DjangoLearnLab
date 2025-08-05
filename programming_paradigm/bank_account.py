@@ -32,13 +32,13 @@ def main():
         choice = input("Enter choice (1/2/3/4): ")
 
         if choice == '1':
-            amount = float(input("Enter amount to deposit: "))
+            amount = int(input("Enter amount to deposit: "))
             if account.deposit(amount):
                 print(f"Deposited: ${amount}")
             else:
                 print("Wrong Input")
         elif choice == '2':
-            amount = float(input("Enter amount to withdraw: "))
+            amount = int(input("Enter amount to withdraw: "))
             if account.withdraw(amount):
                 print(f"Withdrew: ${amount}")
             else:
@@ -51,6 +51,5 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-main() 
     
     
