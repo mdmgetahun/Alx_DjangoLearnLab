@@ -52,10 +52,5 @@ def main(account):
             print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    main(account=None)
-    acc = BankAccount(100)
-    if acc.withdraw(50.0):
-        print("Withdrew: $50.0")
-    else:
-        print("Insufficient funds.")
+    main(account=BankAccount("Amdetsion", 100)) 
     
