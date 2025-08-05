@@ -42,7 +42,7 @@ def main(account):
             if account.withdraw(amount):
                 print(f"Withdrew: ${amount}")
             else:
-                print("Insufficient funds or wrong input.")
+                print("Insufficient funds.")
         elif choice == '3':
             print(f"Current Balance: ${account.display_balance()}")
         elif choice == '4':
@@ -53,4 +53,9 @@ def main(account):
 
 if __name__ == "__main__":
     main(account=None)
+    acc = BankAccount(100)
+    if acc.withdraw(50.0):
+        print("Withdrew: $50.0")
+    else:
+        print("Insufficient funds.")
     
