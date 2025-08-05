@@ -17,5 +17,4 @@ def main():
             break
         except ValueError:
             print("Error: Please enter numeric values only.")
-
 main()
