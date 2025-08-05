@@ -18,7 +18,7 @@ class BankAccount:
     def display_balance(self):
         return self.account_balance
     
-def main():
+def main(account):
 
     account = BankAccount("Amdetsion", 100)  
     while True:
@@ -51,5 +51,5 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-    
+main(account=BankAccount("Amdetsion", 100))
     
