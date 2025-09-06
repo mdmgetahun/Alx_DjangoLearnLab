@@ -9,3 +9,4 @@ urlpatterns = [
     path("login/", login_view.as_view(template_name='relationship_app/login.html'), name="login"),
 ]
 
+logout_view.as_view(template_name='relationship_app/logout.html'), login_view.as_view(template_name='relationship_app/login.html'),
