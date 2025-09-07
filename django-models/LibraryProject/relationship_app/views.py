@@ -9,6 +9,43 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import User
+from .models import UserProfile
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import permission_required
+
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("list_books")
+    else:
+        form = BookForm()
+    return render(request, "relationship_app/add_book.html", {"form": form})
+
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('list_book')
+    return render(request, 'relationship_app/book_book_confirm_delete.html', {'book': book})
+
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.sace()
+            return redirect('list_books')
+        else:
+            form = BookForm(instance=book)
+        return render(request, 'relationship_app/book_form.html', {'form: form'})
+    
 
 
 def list_books(request):
@@ -28,7 +65,7 @@ def register(request):
             user = form.save()
             login(request, user)  
             messages.success(request, "Registration successful!")
-            return redirect("list_books")  
+            return redirect("login")  
     else:
         form = UserCreationForm()
     return render(request, "relationship_app/register.html", {"form": form})
@@ -52,6 +89,14 @@ def LogoutView(request):
     messages.info(request, "You have successfully logged out.")
     return redirect("relationship_app/logout.html")
 
+def role_redirect(request):
+    role = request.user.userprofile.role
+    if role == 'Admin':
+        return redirect('/admin/')
+    elif role == 'Librarian':
+        return redirect('/librarian/')
+    else:
+        return redirect('/member/')
 #Roles
 
 def is_admin(user):
