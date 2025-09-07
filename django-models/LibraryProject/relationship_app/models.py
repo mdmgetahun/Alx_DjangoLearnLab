@@ -46,7 +46,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}, {self.role}"
 
-class Meta:
+class Meta(Book):
     permissions = [
         ("can_add_book", "Can add book"),
         ("can_change_book", "Can change book"),

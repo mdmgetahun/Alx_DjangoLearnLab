@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+from .forms import BookForm
 
 
 @permission_required('relationship_app.can_add_book', raise_exception=True)
@@ -35,7 +36,7 @@ def delete_book(request, pk):
     return render(request, 'relationship_app/book_book_confirm_delete.html', {'book': book})
 
 @permission_required('relationship_app.can_change_book', raise_exception=True)
-def edit_book(request, pk):
+def change_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == "POST":
         form = BookForm(request.POST, instance=book)
