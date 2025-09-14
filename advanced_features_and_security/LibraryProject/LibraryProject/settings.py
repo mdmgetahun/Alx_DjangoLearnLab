@@ -101,10 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = [
-                    'accounts.CustomUser'
-                    'bookshelf.CustomUser'
-]
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 
 # Internationalization
