@@ -43,3 +43,4 @@ def search_books(request):
     title = request.GET.get("title", "")
     books = Book.objects.filter(title__icontains=title)  #Safety
     return render(request, "bookshelf/book_list.html", {"books": books})
+["from .forms import ExampleForm"]
