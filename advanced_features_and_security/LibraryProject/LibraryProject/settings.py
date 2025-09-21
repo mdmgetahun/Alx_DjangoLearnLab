@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-y7x4y)5z!okqw=6r=t%$*4*w8bj_$du5m$m%s53wg%_rogmo#h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -38,16 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',
-    'accounts'
+    'accounts',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.security.SecurityMiddleware',  
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
+    'django.contrib.messages.middleware.MessageMiddleware',    
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -127,3 +129,30 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/role_redirect/'   # or any page you want
 LOGOUT_REDIRECT_URL = '/login/'
+
+DEBUG = False  # Set to False in production
+
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Ensure cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
+
+SECURE_SSL_REDIRECT = False  
+SECURE_HSTS_SECONDS = 3600  
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+
+# MIDDLEWARE = [
+   
+#     'csp.middleware.CSPMiddleware',
+# ]
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')
+CSP_IMG_SRC = ("'self'", 'data:')
