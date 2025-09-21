@@ -108,7 +108,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest.framework.permission.IsAuthenticated',
+        'rest.framework.permissions.IsAuthenticated',
     ]
 }
 
