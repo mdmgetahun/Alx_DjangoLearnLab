@@ -38,3 +38,8 @@ def book_delete(request, pk):
         book.delete()
         return redirect('book_list')
     return render(request, 'books/book_confirm_delete.html', {'book': book})
+
+def search_books(request):
+    title = request.GET.get("title", "")
+    books = Book.objects.filter(title__icontains=title)  #Safety
+    return render(request, "bookshelf/book_list.html", {"books": books})

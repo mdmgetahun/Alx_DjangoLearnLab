@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'accounts',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',    
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'",)
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
