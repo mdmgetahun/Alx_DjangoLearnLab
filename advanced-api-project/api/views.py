@@ -3,7 +3,7 @@ from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
 from rest_framework import generics
 from rest_framework import permissions, filters
-from rest_framework.permissions import  IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 class BookListView(generics.ListAPIView): 
     queryset = Book.objects.all()
