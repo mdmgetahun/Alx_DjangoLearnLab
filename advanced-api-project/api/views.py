@@ -2,26 +2,22 @@ from django.shortcuts import render
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
 from rest_framework import generics
-from rest_framework import permissions, filters
+from rest_framework import permissions, filters, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 class BookListView(generics.ListAPIView): 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly] #Anyone can view the list of books
 
-   def get_queryset(self):
-        queryset = Book.objects.all()
-        #Filter by author
-        author_id = self.request.query_params.get('author')
-        if author_id:
-            queryset = queryset.filter(author__id=author_id)
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter] #filtering
+    filterset_fields = ['title', 'author', 'publication_year']
+ 
+    search_fields = ['title', 'author__name'] #searching
 
-        #Filter by published year
-        published_year = self.request.query_params.get('published_year')
-        if published_year:
-            queryset = queryset.filter(published_year=published_year)
-        return queryset
+    ordering_fields = ['title', 'publication_year'] #ordering
+    ordering = ['title']  # default ordering
 
 
 class BookDetailView(generics.RetrieveAPIView):
