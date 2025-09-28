@@ -10,11 +10,11 @@ class BookAPITests(APITestCase):
         self.user = User.objects.create_user(username='testuser', password='testpass')
         
         # create an author
-        self.author = Author.objects.create(name='J.K. Rowling')
+        self.author = Author.objects.create(name='Myles Munroe')
         
         # create a book
         self.book = Book.objects.create(
-            title='Harry Potter',
+            title='The Power of Vision',
             author=self.author,
             publication_year=2001
         )
@@ -29,7 +29,7 @@ class BookAPITests(APITestCase):
         url = reverse('book-detail', args=[self.book.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], 'Harry Potter')
+        self.assertEqual(response.data['title'], 'The Power of Vision')
     
     def test_create_book_authenticated(self):
         self.client.login(username='testuser', password='testpass')
@@ -46,11 +46,11 @@ class BookAPITests(APITestCase):
     def test_update_book(self):
         self.client.login(username='testuser', password='testpass')
         url = reverse('book-update', args=[self.book.id])
-        data = {'title': 'Harry Potter Updated'}
+        data = {'title': 'The Power of Vision Updated'}
         response = self.client.patch(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.book.refresh_from_db()
-        self.assertEqual(self.book.title, 'Harry Potter Updated')
+        self.assertEqual(self.book.title, 'The Power of Vision Updated')
 
     def test_delete_book(self):
         self.client.login(username='testuser', password='testpass')
@@ -59,17 +59,17 @@ class BookAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Book.objects.count(), 0)
 
-        def test_filter_by_title(self):
-        url = reverse('book-list') + '?title=Harry Potter'
+    def test_filter_by_title(self):
+        url = reverse('book-list') + '?title=The Power of Vision'
         response = self.client.get(url)
         self.assertEqual(len(response.data), 1)
 
     def test_search_title(self):
-        url = reverse('book-list') + '?search=Harry'
+        url = reverse('book-list') + '?search=Vision'
         response = self.client.get(url)
         self.assertEqual(len(response.data), 1)
 
     def test_ordering(self):
         url = reverse('book-list') + '?ordering=-publication_year'
         response = self.client.get(url)
-        self.assertEqual(response.data[0]['title'], 'Harry Potter')
+        self.assertEqual(response.data[0]['title'], 'The Power of Vision')
