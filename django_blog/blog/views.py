@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
-from django.views.generic import TemplateView, FormView
-from .forms import CustomUserCreationForm
+from django.views.generic import FormView, View
+from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 class UserLoginView(LoginView): #custom login view
     template_name = 'blog/login.html'
@@ -29,18 +31,27 @@ def home_view(request):
 def posts_view(request):
     return HttpResponse("Post here!")
 
-# def register_view(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Successfully created account!")
-#             return redirect('login')
-#     else:
-#         form = CustomUserCreationForm()  
+@method_decorator(login_required, name='dispatch') #ensure that the user is logged in to access profile
+class ProfileView(View):
+    template_name = 'blog/profile.html'
 
-#     return render(request, 'blog/register.html', {'form': form})
+    def get(self, request, *args, **kwargs): #allows users to view their profile
+        form = ProfileUpdateForm(
+            instance=request.user.profile, 
+            initial={'email': request.user.email}
+        ) 
+        return render(request, self.template_name, {'form': form})
 
-def profile_view(request):
-    return render(request, 'blog/profile.html')
-# Create your views here.
+    def post(self, request, *args, **kwargs): #allows users to update their profile
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully") # success message
+            return redirect('profile')
+        return render(request, self.template_name, {'form': form})
+
+    
+
+# def profile_view(request):
+#     return render(request, 'blog/profile.html')
+# # Create your views here.
