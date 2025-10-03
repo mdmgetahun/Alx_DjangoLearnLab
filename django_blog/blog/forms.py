@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Post
 
 
 class CustomUserCreationForm(UserCreationForm): #custom user creation form
@@ -26,3 +26,8 @@ class ProfileUpdateForm(forms.ModelForm): #Update profile form
             profile.user.save() 
             profile.save() 
         return profile
+    
+class PostForm(forms.ModelForm):
+    class Meta():
+        model = Post
+        fields = ['title', 'content']
