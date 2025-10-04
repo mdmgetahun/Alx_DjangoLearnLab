@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse
-from django.views.generic import FormView, View, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import FormView, View, ListView, CreateView, UpdateView, DeleteView, DetailView
 from .forms import CustomUserCreationForm, ProfileUpdateForm, PostForm
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -57,7 +57,7 @@ class PostListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
 
-class PostDetailView(ListView):
+class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
