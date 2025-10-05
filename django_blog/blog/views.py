@@ -92,7 +92,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView): 
     model = Post
     fields = ['title', 'content']
     template_name = 'blog/post_form.html'
@@ -102,15 +102,16 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
        return self.request.user == post.author # Check if the logged-in user is the author of the post
     
     
-class PostDeleteView(UserPassesTestMixin, DeleteView):
+class PostDeleteView(UserPassesTestMixin, DeleteView): 
     model = Post
     template_name = 'blog/post_delete.html'
     success_url = reverse_lazy('post_list')
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
+# Check if the logged-in user is the author of the post
+class CommentCreateView(LoginRequiredMixin, CreateView): # Create comment view
     model = Comment
     form_class = CommentForm
-    template_name = 'blog/comment_form.html'
+    template_name = 'blog/comment_form.html' #uses the same template as post form
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -118,8 +119,9 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('post_detail', kwargs={'pk': self.kwargs['post_id']})
+        return reverse_lazy('post_detail', kwargs={'pk': self.kwargs['post_id']}) # redirect to the post detail page after comment creation
 
+# Update and Delete views for comments
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
